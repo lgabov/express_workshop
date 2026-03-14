@@ -2,20 +2,28 @@
   "name": "express-workshop",
   "version": "1.0.0",
   "description": "An aPI REST using express.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo\"Error: no test specifed\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lgabov/express_workshop.git"
+  },
   "keywords": [
-    "api",
-    "rest",
+    "node",
+    "jwt",
     "express",
-    "nodejs"
+    "mysql"
   ],
   "license": "ISC",
   "author": "Gabriel vm",
-  "type": "commonjs",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "bugs": {
+    "url": "https://github.com/lgabov/express_workshop/issues"
   },
+  "homepage": "https://github.com/lgabov/express_workshop#readme",
   "dependencies": {
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "nodemon": "^3.1.14"
   }
 }
