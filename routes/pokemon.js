@@ -9,7 +9,7 @@ pokemon.post("/",async(req, res, next) => {
 pokemon.get('/',async (req, res, next) => {
     const pkmn = await db.query('SELECT * FROM pokemon');
    
-    return res.status(200).json(pkmn);
+    return res.status(200).json({ code: 1, message: pkmn });
    
 });
 pokemon.get('/:name',async (req, res) => {
@@ -22,7 +22,7 @@ const pkmn = await db.query("SELECT * FROM pokemon WHERE pok_name = ?", [name]);
     if (pkmn.length > 0) {
         return res.status(200).json(pkmn);
     } else {
-        return res.status(404).send("Pokemon no encontrado");
+        return res.status(404).json({ code: 404, message: "Pokemon no encontrado" });
     }
 });
 
@@ -36,9 +36,11 @@ pokemon.get('/:id', async(req, res) => {
 
     const id = parseInt(idParam) - 1;
 
-     (id >= 0 && id < pk.length) ? res.status(200).send(pk[req.params.id - 1]) :
-     res.status(404).send("Pokemon no encontrado");
-
-})
+     if (id >= 0 && id < pk.length) {
+        return res.status(200).json({ code: 1, message: pk[req.params.id - 1] });
+    } 
+        return res.status(404).json({ code: 404, message: "Pokemon no encontrado" });
+    
+});
 
 module.exports = pokemon;
