@@ -3,13 +3,27 @@ const pokemon = express.Router();
 const db = require('../config/database');
 
 pokemon.post("/",async(req, res, next) => {
-    return res.status(200).json(req.body);
+    const { pok_name, pok_height, pok_weight, pok_base_experience } = req.body;
+    if(pok_name && pok_height && pok_weight && pok_base_experience){
+    let query = "INSERT INTO pokemon(pok_name, pok_height, pok_weight, pok_base_experience) ";
+    query += `VALUES ('${pok_name}', ${pok_height}, ${pok_weight}, ${pok_base_experience}); `;
+    
+const rows = await db.query(query);
+console.log(rows);
+    
+  if (rows.affectedRows == 1) {
+    return res.status(200).json({ code: 201, message: "Pokemon insertado exitosamente" });
+  }
+  return res.status(500).json({ code: 500, message: "Error al insertar el pokemon" });
+
+    }
+    return res.status(500).json({ code: 500, message: "Campos incompletos" });
 });
 
 pokemon.get('/',async (req, res, next) => {
     const pkmn = await db.query('SELECT * FROM pokemon');
    
-    return res.status(200).json({ code: 1, message: pkmn });
+    return res.status(200).json({ code: 201, message: pkmn });
    
 });
 pokemon.get('/:name',async (req, res) => {
@@ -37,7 +51,7 @@ pokemon.get('/:id', async(req, res) => {
     const id = parseInt(idParam) - 1;
 
      if (id >= 0 && id < pk.length) {
-        return res.status(200).json({ code: 1, message: pk[req.params.id - 1] });
+        return res.status(200).json({ code: 201, message: pk[req.params.id - 1] });
     } 
         return res.status(404).json({ code: 404, message: "Pokemon no encontrado" });
     
